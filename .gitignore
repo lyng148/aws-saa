@@ -1,0 +1,7 @@
+*.zip
+check_*.py
+compare_*.py
+verify_*.py
+__pycache__/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS Certified Solutions Architect – Associate (SAA-C03) Quiz | Coursera</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <!-- ======================================================================
+       COURSERA HEADER
+       ====================================================================== -->
+  <header class="coursera-header">
+    <div class="header-top">
+      <!-- Brand & Course Title -->
+      <div class="brand-section">
+        <a href="javascript:void(0)" id="brand-logo-btn" class="coursera-logo" title="Trở về danh sách đề thi Coursera">
+          <svg viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.5 14C14.5 6.488 20.488 0.5 28 0.5c5.385 0 9.873 3.09 11.967 7.556l-3.906 1.874C34.62 6.55 31.528 4.6 28 4.6c-5.192 0-9.4 4.208-9.4 9.4 0 5.192 4.208 9.4 9.4 9.4 3.528 0 6.62-1.95 8.061-5.33l3.906 1.874C37.873 24.41 33.385 27.5 28 27.5 20.488 27.5 14.5 21.512 14.5 14z" fill="#0056D2"/>
+            <text x="44" y="19" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-weight="800" font-size="18" fill="#0056D2" letter-spacing="-0.5">coursera</text>
+          </svg>
+        </a>
+        <div class="brand-divider"></div>
+        
+        <div class="course-info">
+          <span id="header-course-title" class="course-title">AWS Certified Solutions Architect – Associate (SAA-C03)</span>
+          <span id="header-course-sub" class="course-subtitle">Trung tâm luyện thi chứng chỉ kiến trúc sư AWS • 7 Bộ đề thi</span>
+        </div>
+
+        <!-- Back to Catalog Button (Inside Quiz) -->
+        <button id="btn-back-catalog" class="btn-back-catalog" style="display: none;" title="Quay về danh sách các đề thi">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          Tất cả đề thi
+        </button>
+
+        <!-- Quick Quiz Switcher Dropdown (Inside Quiz) -->
+        <select id="header-quiz-selector" class="header-quiz-selector" style="display: none;" title="Chuyển nhanh sang đề thi khác"></select>
+      </div>
+
+      <!-- Header Center: Mode Switcher -->
+      <div id="header-modes" class="header-modes" style="display: none;">
+        <button id="mode-practice-btn" class="mode-btn active" title="Luyện tập có kiểm tra đáp án tức thì">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          Luyện tập
+        </button>
+        <button id="mode-exam-btn" class="mode-btn" title="Thi thử giả lập Coursera tính giờ">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Thi thử
+        </button>
+      </div>
+
+      <!-- Header Right: Timer, Theme, Settings, Submit -->
+      <div class="header-actions">
+        <!-- Timer (Inside Quiz) -->
+        <div id="header-timer-box" class="timer-box" style="display: none;" title="Thời gian làm bài">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span id="timer-display">00:00</span>
+          <button id="timer-btn" class="icon-btn" style="width: 22px; height: 22px; border: none;" title="Tạm dừng / Tiếp tục">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          </button>
+        </div>
+
+        <!-- Dark/Light Theme -->
+        <button id="theme-toggle-btn" class="icon-btn" title="Đổi giao diện Sáng / Tối">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+
+        <!-- Settings -->
+        <button id="settings-btn" class="icon-btn" title="Cài đặt & Sao lưu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </button>
+
+        <!-- Submit Quiz (Inside Quiz) -->
+        <button id="submit-btn" class="btn-primary" style="display: none;" title="Nộp bài và xem điểm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          Nộp bài thi
+        </button>
+      </div>
+    </div>
+
+    <!-- Secondary Header Sub-bar (Inside Quiz) -->
+    <div id="header-subbar" class="header-subbar" style="display: none;">
+      <div class="subbar-left">
+        <span class="subbar-item" id="breadcrumb">Đề thi trắc nghiệm AWS SAA-C03</span>
+        <span>•</span>
+        <span class="subbar-item">
+          <strong>Tổng:</strong> <span id="meta-total">65 câu</span>
+        </span>
+        <span>•</span>
+        <span class="subbar-item">
+          <strong>Điểm đạt:</strong> 72%
+        </span>
+        <span>•</span>
+        <span class="subbar-item">
+          <strong>Đã làm:</strong> <span id="meta-answered">0 / 65 (0%)</span>
+        </span>
+      </div>
+
+      <div class="subbar-right">
+        <!-- Shuffle toggle -->
+        <button id="btn-shuffle-quiz" class="btn-nav" style="padding: 3px 10px; font-size: 11.5px; height: 28px;" title="Trộn ngẫu nhiên thứ tự câu hỏi giống hệt file gốc Stephane Maarek">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+          <span id="shuffle-btn-text">Trộn ngẫu nhiên</span>
+        </button>
+
+        <!-- View mode switcher -->
+        <div class="view-toggle">
+          <button id="view-single-btn" class="view-btn active">Từng câu</button>
+          <button id="view-all-btn" class="view-btn">Tất cả câu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Progress Bar -->
+    <div class="global-progress-track">
+      <div id="progress-bar-fill" class="global-progress-fill"></div>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       VIEW 1: COURSERA QUIZ CATALOG / COURSE DASHBOARD
+       ====================================================================== -->
+  <main id="catalog-view-container" class="catalog-container">
+    
+    <!-- Hero Banner -->
+    <section class="catalog-hero">
+      <div class="catalog-hero-badge">Coursera Assessment Hub</div>
+      <h1 class="catalog-hero-title">AWS Certified Solutions Architect – Associate (SAA-C03)</h1>
+      <p class="catalog-hero-desc">
+        Hệ thống luyện thi trắc nghiệm kiến trúc sư đám mây AWS tiêu chuẩn quốc tế. Cung cấp đầy đủ <strong>7 bộ đề thi</strong> bao gồm Ngân hàng 390 câu hỏi tổng hợp và 6 bộ đề thi thử độc quyền của giảng viên Stephane Maarek với giải thích chi tiết tiếng Việt và sơ đồ kiến trúc gốc.
+      </p>
+      <div class="catalog-hero-stats">
+        <div class="hero-stat-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>7 Bộ đề thi tuyển chọn</span>
+        </div>
+        <div class="hero-stat-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>130 phút / đề chuẩn AWS</span>
+        </div>
+        <div class="hero-stat-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <span>Điểm chuẩn đạt: 72% (720/1000)</span>
+        </div>
+        <div class="hero-stat-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Tự động lưu tiến độ riêng từng đề</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: Master Question Bank -->
+    <section>
+      <div class="catalog-section-header">
+        <h2 class="catalog-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Ngân hàng câu hỏi tổng hợp
+        </h2>
+        <span class="catalog-section-sub">Bao quát toàn diện 4 Domain kiến trúc AWS</span>
+      </div>
+      <div id="master-bank-card-container" class="catalog-grid" style="grid-template-columns: 1fr;"></div>
+    </section>
+
+    <!-- Section 2: Stephane Maarek 6 Practice Tests -->
+    <section>
+      <div class="catalog-section-header">
+        <h2 class="catalog-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          6 Đề thi thử chuẩn đề thi thật (Stephane Maarek)
+        </h2>
+        <span class="catalog-section-sub">65 câu hỏi / đề • Giới hạn 130 phút • Kèm sơ đồ kiến trúc</span>
+      </div>
+      <div id="stephane-tests-grid" class="catalog-grid"></div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       VIEW 2: COURSERA QUIZ ASSESSMENT VIEW (SIDEBAR + MAIN CONTENT)
+       ====================================================================== -->
+  <main id="quiz-view-container" class="app-container" style="display: none;">
+
+    <!-- SIDEBAR: ASSESSMENT NAVIGATOR -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Danh sách câu hỏi
+        </span>
+        <span id="sidebar-count-badge" class="sidebar-count-badge">65 / 65</span>
+      </div>
+
+      <!-- Search Input -->
+      <div class="sidebar-search-box">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="sidebar-search" class="sidebar-search-input" placeholder="Tìm theo nội dung, số câu...">
+      </div>
+
+      <!-- Topic Filter -->
+      <div class="filter-group">
+        <label for="topic-filter" class="filter-label">Chủ đề AWS (Domains):</label>
+        <select id="topic-filter" class="topic-select">
+          <option value="all">Tất cả chủ đề</option>
+        </select>
+      </div>
+
+      <!-- Status Filter Tabs -->
+      <div id="status-filters" class="status-filters">
+        <button class="status-pill active" data-status="all">Tất cả</button>
+        <button class="status-pill" data-status="answered">Đã làm</button>
+        <button class="status-pill" data-status="unanswered">Chưa làm</button>
+        <button class="status-pill" data-status="flagged">Gắn cờ 🚩</button>
+        <button class="status-pill" data-status="incorrect">Câu sai ❌</button>
+      </div>
+
+      <!-- Palette Legend -->
+      <div class="palette-legend">
+        <div class="legend-item"><div class="legend-dot unanswered"></div> Chưa làm</div>
+        <div class="legend-item"><div class="legend-dot answered"></div> Đã làm</div>
+        <div class="legend-item"><div class="legend-dot flagged"></div> Đã gắn cờ</div>
+      </div>
+
+      <!-- Questions Grid -->
+      <div class="question-grid-container">
+        <div id="question-grid" class="question-grid"></div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <section class="main-content">
+      <!-- Single Question View Container -->
+      <div id="single-view-container"></div>
+
+      <!-- All Questions Continuous List Container -->
+      <div id="all-view-container" style="display: none;"></div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Floating Sidebar Button (Inside Quiz) -->
+  <button id="mobile-sidebar-toggle" class="mobile-sidebar-toggle" title="Mở danh sách câu hỏi" style="display: none;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+  </button>
+
+  <!-- ======================================================================
+       MODALS
+       ====================================================================== -->
+
+  <!-- Submit Confirmation Modal -->
+  <div id="confirm-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Xác nhận nộp bài thi</h3>
+        <button class="icon-btn modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn đang chuẩn bị nộp bài thi trắc nghiệm <strong id="confirm-quiz-name">AWS Certified Solutions Architect – Associate</strong>.</p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="confirm-answered" class="stat-val" style="color: var(--cds-primary);">0</div>
+            <div class="stat-name">Đã trả lời</div>
+          </div>
+          <div class="stat-card">
+            <div id="confirm-unanswered" class="stat-val" style="color: var(--cds-danger);">0</div>
+            <div class="stat-name">Chưa làm</div>
+          </div>
+          <div class="stat-card">
+            <div id="confirm-flagged" class="stat-val" style="color: var(--cds-flag);">0</div>
+            <div class="stat-name">Đã gắn cờ</div>
+          </div>
+        </div>
+
+        <div id="confirm-warning-box" class="feedback-banner incorrect" style="display: none; padding: 12px 16px;"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="confirm-cancel-btn" class="btn-nav">Quay lại làm tiếp</button>
+        <button id="confirm-submit-btn" class="btn-primary">Nộp bài ngay</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Modal (Coursera Grade Report) -->
+  <div id="results-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 720px;">
+      <div class="modal-header">
+        <h3 id="results-modal-title" class="modal-title">Kết quả bài thi AWS SAA-C03</h3>
+        <button class="icon-btn modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Hero Score -->
+        <div class="results-hero">
+          <div class="score-circle">
+            <span id="score-percent" class="score-percent">0%</span>
+            <span class="score-label">Điểm số</span>
+          </div>
+          <div id="score-verdict" class="verdict-badge">ĐẠT (PASSED) 🎉</div>
+          <p style="font-size: 13.5px; color: var(--cds-text-secondary);">Điểm đạt chuẩn: <strong>72%</strong> (tương đương chuẩn 720/1000 AWS)</p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="stat-correct" class="stat-val" style="color: var(--cds-success);">0</div>
+            <div class="stat-name">Số câu đúng</div>
+          </div>
+          <div class="stat-card">
+            <div id="stat-incorrect" class="stat-val" style="color: var(--cds-danger);">0</div>
+            <div class="stat-name">Số câu sai</div>
+          </div>
+          <div class="stat-card">
+            <div id="stat-time" class="stat-val" style="color: var(--cds-primary);">00:00</div>
+            <div class="stat-name">Thời gian làm</div>
+          </div>
+        </div>
+
+        <!-- Domain Breakdown -->
+        <div class="breakdown-section">
+          <h4 class="breakdown-title">Phân tích theo 4 nhóm kiến trúc AWS:</h4>
+          <div id="domain-breakdown"></div>
+        </div>
+
+      </div>
+      <div class="modal-footer" style="justify-content: space-between; flex-wrap: wrap;">
+        <div style="display: flex; gap: 8px;">
+          <button id="results-print-btn" class="btn-nav" title="In hoặc lưu PDF kết quả">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            In kết quả
+          </button>
+          <button id="results-retake-btn" class="btn-nav" style="color: var(--cds-danger);" title="Làm lại đề thi này">Làm lại</button>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button id="results-review-wrong-btn" class="btn-secondary">Chỉ xem câu sai ❌</button>
+          <button id="results-review-all-btn" class="btn-primary">Xem lại toàn bộ bài thi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings & Backup Modal -->
+  <div id="settings-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Cài đặt & Tiến độ học tập</h3>
+        <button class="icon-btn modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>Phím tắt bàn phím</strong>
+              <div style="font-size: 12.5px; color: var(--cds-text-secondary);">Xem hướng dẫn điều khiển nhanh bằng phím</div>
+            </div>
+            <button id="settings-shortcuts-btn" class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">Xem phím tắt</button>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid var(--cds-border-light);">
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>Xuất tiến độ làm bài (Export JSON)</strong>
+              <div style="font-size: 12.5px; color: var(--cds-text-secondary);">Lưu file tiến độ bài thi hiện tại để chuyển máy tính khác</div>
+            </div>
+            <button id="settings-export-btn" class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">Xuất file</button>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid var(--cds-border-light);">
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>Nhập tiến độ (Import JSON)</strong>
+              <div style="font-size: 12.5px; color: var(--cds-text-secondary);">Khôi phục các câu đã làm từ file đã lưu</div>
+            </div>
+            <label class="btn-secondary" style="padding: 6px 12px; font-size: 13px; cursor: pointer;">
+              Chọn file
+              <input type="file" id="settings-import-input" accept=".json" style="display: none;">
+            </label>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid var(--cds-border-light);">
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="color: var(--cds-danger);">Đặt lại bài thi này (Reset)</strong>
+              <div style="font-size: 12.5px; color: var(--cds-text-secondary);">Xóa mọi câu đã làm của bài thi hiện tại</div>
+            </div>
+            <button id="settings-reset-btn" class="btn-nav" style="color: var(--cds-danger); border-color: var(--cds-danger-border); padding: 6px 12px; font-size: 13px;">Xóa dữ liệu</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary modal-close-btn">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div id="shortcuts-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Phím tắt bàn phím</h3>
+        <button class="icon-btn modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="shortcuts-list">
+          <div class="shortcut-row">
+            <span>Chuyển câu tiếp theo</span>
+            <span class="kbd-tag">→</span >
+          </div>
+          <div class="shortcut-row">
+            <span>Quay lại câu trước</span>
+            <span class="kbd-tag">←</span>
+          </div>
+          <div class="shortcut-row">
+            <span>Chọn đáp án A, B, C, D, E, F</span>
+            <span class="kbd-tag">A - F hoặc 1 - 6</span>
+          </div>
+          <div class="shortcut-row">
+            <span>Gắn cờ xem lại (Flag)</span>
+            <span class="kbd-tag">F</span>
+          </div>
+          <div class="shortcut-row">
+            <span>Kiểm tra đáp án (Chế độ luyện tập)</span>
+            <span class="kbd-tag">Enter</span>
+          </div>
+          <div class="shortcut-row">
+            <span>Quay về trang danh sách đề thi</span>
+            <span class="kbd-tag">Esc hoặc H</span>
+          </div>
+          <div class="shortcut-row">
+            <span>Mở bảng phím tắt này</span>
+            <span class="kbd-tag">?</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary modal-close-btn">Đã hiểu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="quiz-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
