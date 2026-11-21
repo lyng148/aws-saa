@@ -1412,42 +1412,142 @@
   }
 
   function exportProgressJson() {
+    if (state.currentQuizId === 'catalog') {
+      const quizzes = {};
+      if (window.QUIZZES_CATALOG) {
+        Object.keys(window.QUIZZES_CATALOG).forEach(qid => {
+          const raw = localStorage.getItem(`coursera_quiz_state_${qid}`);
+          if (raw) {
+            try {
+              quizzes[qid] = JSON.parse(raw);
+            } catch (e) {}
+          }
+        });
+      }
+      if (Object.keys(quizzes).length === 0) {
+        showToast('Chưa có tiến độ làm bài nào để xuất!', 'warning');
+        return;
+      }
+      const data = {
+        version: 2,
+        quizzes,
+        exportedAt: new Date().toISOString()
+      };
+      downloadJsonFile(data, `aws-saa-all-progress-${new Date().toISOString().slice(0, 10)}.json`);
+      showToast(`Đã xuất tiến độ của ${Object.keys(quizzes).length} bộ đề!`);
+      return;
+    }
+
+    saveQuizState(state.currentQuizId);
     const data = {
       quizId: state.currentQuizId,
+      currentIndex: state.currentIndex,
       userAnswers: state.userAnswers,
       flagged: Array.from(state.flagged),
       checked: state.checked,
+      mode: state.mode,
+      viewMode: state.viewMode,
       timerSeconds: state.timerSeconds,
+      isSubmitted: state.isSubmitted,
       exportedAt: new Date().toISOString()
     };
+    downloadJsonFile(data, `aws-saa-${state.currentQuizId}-progress-${new Date().toISOString().slice(0, 10)}.json`);
+    showToast('Đã xuất tiến độ bài thi thành công!');
+  }
+
+  function downloadJsonFile(data, filename) {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `aws-saa-${state.currentQuizId}-progress-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = filename;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('Đã xuất tiến độ bài thi thành công!');
   }
 
   function importProgressJson(e) {
-    const file = e.target.files[0];
+    const input = e.target;
+    const file = input.files && input.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = function (event) {
       try {
         const imported = JSON.parse(event.target.result);
-        if (imported.userAnswers) state.userAnswers = imported.userAnswers;
-        if (imported.flagged) state.flagged = new Set(imported.flagged);
-        if (imported.checked) state.checked = imported.checked;
-        if (imported.timerSeconds) state.timerSeconds = imported.timerSeconds;
-        saveQuizState(state.currentQuizId);
-        renderAll();
+
+        // Case 1: Full multi-quiz backup (version 2)
+        if (imported && imported.quizzes && typeof imported.quizzes === 'object') {
+          let count = 0;
+          Object.entries(imported.quizzes).forEach(([qid, qState]) => {
+            if (window.QUIZZES_CATALOG && window.QUIZZES_CATALOG[qid] && qState && typeof qState === 'object') {
+              localStorage.setItem(`coursera_quiz_state_${qid}`, JSON.stringify(qState));
+              count++;
+            }
+          });
+          if (count === 0) {
+            showToast('File không chứa dữ liệu đề thi hợp lệ!', 'danger');
+            return;
+          }
+          if (state.currentQuizId === 'catalog') {
+            renderCatalog();
+            updateGlobalCourseProgress();
+          } else {
+            loadQuizState(state.currentQuizId);
+            renderAll();
+          }
+          closeAllModals();
+          showToast(`Đã khôi phục tiến độ cho ${count} bộ đề thành công!`);
+          return;
+        }
+
+        // Case 2: Single-quiz backup (or legacy v1 without quizId)
+        if (!imported || typeof imported !== 'object' || (!imported.userAnswers && !imported.flagged && !imported.checked)) {
+          showToast('File dữ liệu không đúng định dạng!', 'danger');
+          return;
+        }
+
+        const hasValidCatalogQuiz = imported.quizId && imported.quizId !== 'catalog' &&
+          window.QUIZZES_CATALOG && window.QUIZZES_CATALOG[imported.quizId];
+
+        const targetQuizId = hasValidCatalogQuiz
+          ? imported.quizId
+          : (state.currentQuizId !== 'catalog' ? state.currentQuizId : 'quiz-390');
+
+        const normalizedState = {
+          currentIndex: typeof imported.currentIndex === 'number' ? imported.currentIndex : 0,
+          userAnswers: imported.userAnswers || {},
+          flagged: Array.isArray(imported.flagged) ? imported.flagged : [],
+          checked: imported.checked || {},
+          mode: imported.mode || 'practice',
+          viewMode: imported.viewMode || 'single',
+          timerSeconds: typeof imported.timerSeconds === 'number' ? imported.timerSeconds : 0,
+          isSubmitted: Boolean(imported.isSubmitted)
+        };
+
+        localStorage.setItem(`coursera_quiz_state_${targetQuizId}`, JSON.stringify(normalizedState));
+
+        if (state.currentQuizId === targetQuizId) {
+          loadQuizState(targetQuizId);
+          renderAll();
+        } else if (state.currentQuizId === 'catalog') {
+          renderCatalog();
+          updateGlobalCourseProgress();
+        } else {
+          selectQuiz(targetQuizId, false);
+        }
+
         closeAllModals();
-        showToast('Đã nhập dữ liệu tiến độ thành công!');
+        const quizTitle = (window.QUIZZES_CATALOG && window.QUIZZES_CATALOG[targetQuizId])
+          ? window.QUIZZES_CATALOG[targetQuizId].title
+          : targetQuizId;
+        showToast(`Đã nhập tiến độ cho "${quizTitle}" thành công!`);
       } catch (err) {
+        console.error('Import JSON error:', err);
         showToast('File dữ liệu không hợp lệ!', 'danger');
+      } finally {
+        input.value = '';
       }
     };
     reader.readAsText(file);
